@@ -72,6 +72,17 @@ typedef struct	s_sprite
 	int			is_visible;
 }				t_sprite;
 
+typedef	struct	s_door
+{
+	int			x;
+	int			y;
+	t_texture	*tex;
+	double		orientation;
+	int			status;
+	double		distance;
+	int			is_visible;
+}				t_door;
+
 typedef struct	s_scene
 {
 	t_res		res;
@@ -86,7 +97,9 @@ typedef struct	s_scene
 	t_map		map;
 	int			mini_map_tile_size;
 	int			total_sprites;
+	int			total_doors;
 	t_sprite	*sprites;
+	t_door		*doors;
 }				t_scene;
 
 typedef struct	s_player
@@ -146,6 +159,7 @@ typedef struct	s_rect
 	int			border_width;
 	t_texture	tex;
 	t_sprite	*sprite;
+	t_door		*door;
 }				t_rect;
 
 typedef struct	s_circle

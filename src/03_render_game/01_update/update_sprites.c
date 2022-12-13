@@ -20,6 +20,7 @@
 ** @8		Makes sure the angle is between 0 and 2 * PI
 */
 
+//sprite.rotation_angle is the angle between the player and sprite
 void	update_sprite_angle(t_game *game, t_sprite *sprite)
 {
 	double		dx;
@@ -52,6 +53,7 @@ void	update_sprite_angle(t_game *game, t_sprite *sprite)
 **			grid. So the sprite will need to appear before in view
 */
 
+//line 3 and 4 is to obtain the atan(x, y) again without doing the calc
 void	update_sprite_visibility(t_game *game, t_sprite *sprite)
 {
 	double		delta_angle;

@@ -20,12 +20,54 @@
 ** @param:	- [t_game *] root struct
 */
 
+void	update_door_visibility(t_game *game, t_door *door)
+{
+	double	delta_angle;
+
+	delta_angle = atan2((door->x - game->player.x), (door->y - game->player.y));
+	if (delta_angle < -M_PI)
+		delta_angle += 2.0 * M_PI;
+	if (delta_angle > M_PI)
+		delta_angle -= 2.0 * M_PI;
+	delta_angle = fabs(delta_angle);
+	if (delta_angle < game->rays.view_angle / 2 + deg_to_rad(4))
+		door->is_visible = 1;
+	else
+		door->is_visible = 0;
+	printf("%d\n", door->is_visible);
+}
+
+void	update_door_distance(t_game *game, t_door *door)
+{
+	double		dx;
+	double		dy;
+
+	dx = door->x - game->player.x;
+	dy = door->y - game->player.y;
+	door->distance = sqrt(pow(dx, 2) + pow(dy, 2));
+}
+
+void	update_door(t_game *game)
+{
+	int		i;
+	t_door	*door;
+
+	i = -1;
+	while (++i < game->scene.total_doors)
+	{
+		door = &game->scene.doors[i];
+		update_door_visibility(game, door);
+		update_door_distance(game, door);
+	}
+}
+
 void	update(t_game *game)
 {
 	update_player_position(&game->player, game->scene.map.grid);
 	update_player_orientation(&game->player);
 	update_rays(game);
 	update_sprites(game);
+	update_door(game);
 }
 
 /*
@@ -150,18 +192,9 @@ void	update_sprites(t_game *game)
 	while (++i < game->scene.total_sprites)
 	{
 		sprite = &game->scene.sprites[i];
-		if(game->scene.map.grid[(int)sprite->y][(int)sprite->x] == 'D')
-			continue ;
 		update_sprite_angle(game, sprite);
 		update_sprite_visibility(game, sprite);
 		update_sprite_distance(game, sprite);
 	}
 	update_sprites_order(game, game->scene.sprites);
-}
-
-void	update_door(t_game *game)
-{
-	if (game->player.door_status == 0)
-		return ;
-	
 }

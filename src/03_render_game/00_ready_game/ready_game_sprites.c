@@ -12,6 +12,44 @@
 
 #include "ready_game_sprites.h"
 
+double	get_door_orientation(t_scene *scene, int x, int y)
+{
+	if (scene->map.grid[y][x + 1] == '1' && scene->map.grid[y][x - 1] == '1')
+		return (deg_to_rad(180));
+	else if (scene->map.grid[y - 1][x] == '1' && scene->map.grid[y - 1][x] == '1')
+		return (deg_to_rad(270));
+	else
+		return (0);
+}
+
+void	add_door(t_scene *scene, int x, int y, char c)
+{
+	int	last_door_index;
+
+	if (scene->total_doors == 0)
+	{
+		scene->doors = malloc(sizeof(t_door));
+		if (!scene->doors)
+			exit(EXIT_SUCCESS);
+	}
+	else
+	{
+		scene->doors = ft_realloc(scene->doors,
+				scene->total_doors * sizeof(t_door),
+				(scene->total_doors + 1) * sizeof(t_door));
+		if (!scene->doors)
+			exit(EXIT_SUCCESS);
+	}
+	if (c == 'D')
+	{
+		last_door_index = scene->total_doors;
+		scene->doors[last_door_index].x = (double)x;
+		scene->doors[last_door_index].y = (double)y;
+		scene->doors[last_door_index].tex = &scene->door_tex;
+		scene->doors[last_door_index].orientation = get_door_orientation(scene, x, y);
+	}
+}
+
 void	ready_game_sprites(t_game *game)
 {
 	get_map_items(&game->scene, &game->scene.map);
@@ -29,16 +67,22 @@ void	get_map_items(t_scene *scene, t_map *map)
 	int		j;
 
 	scene->total_sprites = 0;
+	scene->total_doors = 0;
 	i = -1;
 	while (++i < map->height)
 	{
 		j = -1;
 		while (++j < map->width)
 		{
-			if (map->grid[i][j] == '2' || map->grid[i][j] == 'D')
+			if (map->grid[i][j] == '2')
 			{
 				add_sprite(scene, j, i, map->grid[i][j]);
 				scene->total_sprites++;
+			}
+			else if (map->grid[i][j] == 'D')
+			{
+				add_door(scene, j, i, map->grid[i][j]);
+				scene->total_doors++;
 			}
 		}
 	}
@@ -79,12 +123,5 @@ void	add_sprite(t_scene *scene, int x, int y, char c)
 		scene->sprites[last_sprite_index].x = (double)x + 0.5;
 		scene->sprites[last_sprite_index].y = (double)y + 0.5;
 		scene->sprites[last_sprite_index].tex = &scene->sprite_tex;
-	}
-	else if (c == 'D')
-	{
-		last_sprite_index = scene->total_sprites;
-		scene->sprites[last_sprite_index].x = (double)x;
-		scene->sprites[last_sprite_index].y = (double)y;
-		scene->sprites[last_sprite_index].tex = &scene->door_tex;
 	}
 }
