@@ -20,19 +20,13 @@
 ** @8		Makes sure the angle is between 0 and 2 * PI
 */
 
-//sprite.rotation_angle is the angle between the player and sprite
+//sprite.rotation_angle is the angle between the player and sprite (clockwise)
 void	update_sprite_angle(t_game *game, t_sprite *sprite)
 {
 	double		dx;
 	double		dy;
 	double		angle;
 
-	// if (!(ft_strncmp(sprite->tex->path, "./assets/textures/Bark.xpm", 27)))
-	// {
-	// 	//printf("%c\n", game->scene.map.grid[(int)(sprite->y)][(int)(sprite->x)]);
-	// 	sprite->rotation_angle = deg_to_rad(270);
-	// 	return ;
-	// }
 	dx = sprite->x - game->player.x;
 	dy = sprite->y - game->player.y;
 	angle = atan2(dy, dx) - game->player.rotation_angle;
@@ -60,6 +54,7 @@ void	update_sprite_visibility(t_game *game, t_sprite *sprite)
 
 	delta_angle = sprite->rotation_angle + game->player.rotation_angle;
 	delta_angle = game->player.rotation_angle - delta_angle;
+	//printf("sprite delta angle %f\n", delta_angle);
 	if (delta_angle < -M_PI)
 		delta_angle += 2.0 * M_PI;
 	if (delta_angle > M_PI)

@@ -78,6 +78,7 @@ typedef	struct	s_door
 	int			y;
 	t_texture	*tex;
 	double		orientation;
+	double		rotation_angle;
 	int			status;
 	double		distance;
 	int			is_visible;

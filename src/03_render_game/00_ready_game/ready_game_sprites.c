@@ -19,7 +19,7 @@ double	get_door_orientation(t_scene *scene, int x, int y)
 	else if (scene->map.grid[y - 1][x] == '1' && scene->map.grid[y - 1][x] == '1')
 		return (deg_to_rad(270));
 	else
-		return (0);
+		return (deg_to_rad(180));
 }
 
 void	add_door(t_scene *scene, int x, int y, char c)

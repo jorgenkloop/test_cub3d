@@ -37,7 +37,7 @@ CC					:=		gcc
 OS					:=		$(shell uname)
 
 # Flags - compilation
-FLAG_WARNING		:=		-O3 -Wall -Wextra -Werror
+#FLAG_WARNING		:=		-O3 -Wall -Wextra -Werror
 FLAG_INC			:= 		$(addprefix -I, $(INC_DIRS))
 FLAG_MAKEFILE		:=		-MMD -MP
 FLAG_DEBUG			:= 		-g

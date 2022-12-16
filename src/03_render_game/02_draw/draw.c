@@ -75,19 +75,29 @@ int		get_y_door_position(t_game *game, double door_height)
 	return (y);
 }
 
-// int		get_x_door_position(t_game *game,
-// 							t_door *door,
-// 							double door_width)
-// {
-// 	double	center_door;
-// 	int		center_screen;
-// 	double	begin_door;
+int		get_x_door_position(t_game *game,
+							t_door *door,
+							double door_width)
+{
+	double	center_door;
+	int		center_screen;
+	double	begin_door;
 
-// 	center_screen = game->scene.res.width / 2;
-// 	center_door = tan(door->rotation_angle) * game->rays.dist_proj_plane;
-// 	begin_door = center_screen + center_door - door_width / 2;
-// 	return (begin_door);
-// }
+	// center_screen = game->scene.res.width / 2;
+	// center_door = tan(door->rotation_angle) * game->rays.dist_proj_plane;
+	// begin_door = center_screen + center_door - door_width;
+
+	double q = (game->player.rotation_angle + deg_to_rad(30) - door->rotation_angle);
+	if ((game->player.rotation_angle >= 0 && game->player.rotation_angle <= 1.5708) &&
+		(door->rotation_angle >= 4.7124 && door->rotation_angle <= 6.2832))
+		q += 2 * M_PI;
+	else if ((game->player.rotation_angle >= 4.7124 && game->player.rotation_angle <= 6.2832) &&
+		(door->rotation_angle >= 0 && door->rotation_angle <= 1.5708))
+		q -= 2 * M_PI;
+	printf("q is %f\n", rad_to_deg(q));
+	begin_door = q * ((game->scene.res.width) / game->rays.view_angle);
+	return (begin_door);
+}
 
 double	get_door_height(t_game *game, double distance)
 {
@@ -99,6 +109,8 @@ double	get_door_height(t_game *game, double distance)
 	return (door_height);
 }
 
+
+
 void	draw_single_door(t_game *game, t_door *door)
 {
 	t_rect	rect;
@@ -109,6 +121,7 @@ void	draw_single_door(t_game *game, t_door *door)
 
 	rect.height = get_door_height(game, door->distance);
 	rect.y = get_y_door_position(game, rect.height);
+	rect.x = get_x_door_position(game, door, rect.height);
 	rect.door = door;
 	column_width = rect.height / door->tex->height;
 	i = -1;
@@ -117,7 +130,6 @@ void	draw_single_door(t_game *game, t_door *door)
 		j = -1;
 		while (++j < column_width)
 		{
-			rect.x = i;
 			pos_x = (int)(rect.x + (i - 1) * column_width + j);
 			if (pos_x >= 0 && pos_x <= game->scene.res.width - 1
 				&& door->distance < game->rays.arr[pos_x].size)
@@ -147,8 +159,8 @@ void	draw(t_game *game)
 	draw_ceilling(game);
 	draw_floor(game);
 	draw_walls(game);
-	draw_door(game);
 	draw_sprites(game);
+	draw_door(game);
 	draw_mini_map(game);
 }
 
