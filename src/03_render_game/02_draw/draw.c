@@ -37,122 +37,122 @@
 	
 // }
 
-void	draw_door_strip(t_rect *rect, t_game *game, int x_tex, int x_img)
-{
-	double	step;
-	double	tex_pos;
-	int		y;
-	int		y_tex;
-	int		color;
+// void	draw_door_strip(t_rect *rect, t_game *game, int x_tex, int x_img)
+// {
+// 	double	step;
+// 	double	tex_pos;
+// 	int		y;
+// 	int		y_tex;
+// 	int		color;
 
-	step = 1.0 * rect->door->tex->height / rect->height;
-	tex_pos = (rect->y - game->scene.res.height / 2 + rect->height / 2) * step;
-	y = -1;
-	while (++y < rect->height && y < game->scene.res.height)
-	{
-		y_tex = (int)tex_pos & (rect->door->tex->height - 1);
-		tex_pos += step;
-		color = rect->door->tex->img.data[y_tex
-			* rect->door->tex->height + x_tex];
-		if (color < 0)
-			continue ;
-		game->mlx.img.data[(rect->y * game->scene.res.width)
-			+ (y * game->scene.res.width) + x_img] = color;
-	}
-}
+// 	step = 1.0 * rect->door->tex->height / rect->height;
+// 	tex_pos = (rect->y - game->scene.res.height / 2 + rect->height / 2) * step;
+// 	y = -1;
+// 	while (++y < rect->height && y < game->scene.res.height)
+// 	{
+// 		y_tex = (int)tex_pos & (rect->door->tex->height - 1);
+// 		tex_pos += step;
+// 		color = rect->door->tex->img.data[y_tex
+// 			* rect->door->tex->height + x_tex];
+// 		if (color < 0)
+// 			continue ;
+// 		game->mlx.img.data[(rect->y * game->scene.res.width)
+// 			+ (y * game->scene.res.width) + x_img] = color;
+// 	}
+// }
 
-int		get_y_door_position(t_game *game, double door_height)
-{
-	int	center_screen;
-	int	center_door;
-	int	y;
+// int		get_y_door_position(t_game *game, double door_height)
+// {
+// 	int	center_screen;
+// 	int	center_door;
+// 	int	y;
 
-	center_screen = game->scene.res.height / 2;
-	center_door = door_height / 2;
-	y = center_screen - center_door;
-	if (y < 0)
-		y = 0;
-	return (y);
-}
+// 	center_screen = game->scene.res.height / 2;
+// 	center_door = door_height / 2;
+// 	y = center_screen - center_door;
+// 	if (y < 0)
+// 		y = 0;
+// 	return (y);
+// }
 
-int		get_x_door_position(t_game *game,
-							t_door *door,
-							double door_width)
-{
-	double	center_door;
-	int		center_screen;
-	double	begin_door;
+// int		get_x_door_position(t_game *game,
+// 							t_door *door,
+// 							double door_width)
+// {
+// 	double	center_door;
+// 	int		center_screen;
+// 	double	begin_door;
 
-	// center_screen = game->scene.res.width / 2;
-	// center_door = tan(door->rotation_angle) * game->rays.dist_proj_plane;
-	// begin_door = center_screen + center_door - door_width;
+// 	center_screen = game->scene.res.width / 2;
+// 	center_door = tan(door->rotation_angle) * game->rays.dist_proj_plane;
+// 	begin_door = center_screen + center_door - door_width;
 
-	double q = (game->player.rotation_angle + deg_to_rad(30) - door->rotation_angle);
-	if ((game->player.rotation_angle >= 0 && game->player.rotation_angle <= 1.5708) &&
-		(door->rotation_angle >= 4.7124 && door->rotation_angle <= 6.2832))
-		q += 2 * M_PI;
-	else if ((game->player.rotation_angle >= 4.7124 && game->player.rotation_angle <= 6.2832) &&
-		(door->rotation_angle >= 0 && door->rotation_angle <= 1.5708))
-		q -= 2 * M_PI;
-	printf("q is %f\n", rad_to_deg(q));
-	begin_door = q * ((game->scene.res.width) / game->rays.view_angle);
-	return (begin_door);
-}
+// 	// double q = (game->player.rotation_angle + deg_to_rad(30) - door->rotation_angle);
+// 	// if ((game->player.rotation_angle >= 0 && game->player.rotation_angle <= 1.5708) &&
+// 	// 	(door->rotation_angle >= 4.7124 && door->rotation_angle <= 6.2832))
+// 	// 	q += 2 * M_PI;
+// 	// else if ((game->player.rotation_angle >= 4.7124 && game->player.rotation_angle <= 6.2832) &&
+// 	// 	(door->rotation_angle >= 0 && door->rotation_angle <= 1.5708))
+// 	// 	q -= 2 * M_PI;
+// 	// printf("q is %f\n", rad_to_deg(q));
+// 	// begin_door = q * ((game->scene.res.width) / game->rays.view_angle);
+// 	return (begin_door);
+// }
 
-double	get_door_height(t_game *game, double distance)
-{
-	double	scaled_distance;
-	double	door_height;
+// double	get_door_height(t_game *game, double distance)
+// {
+// 	double	scaled_distance;
+// 	double	door_height;
 
-	scaled_distance = distance * SCALE;
-	door_height = (SCALE / scaled_distance) * game->rays.dist_proj_plane;
-	return (door_height);
-}
+// 	scaled_distance = distance * SCALE;
+// 	door_height = (SCALE / scaled_distance) * game->rays.dist_proj_plane;
+// 	return (door_height);
+// }
 
 
 
-void	draw_single_door(t_game *game, t_door *door)
-{
-	t_rect	rect;
-	double	column_width;
-	int		i;
-	int		j;
-	int		pos_x;
+// void	draw_single_door(t_game *game, t_door *door)
+// {
+// 	t_rect	rect;
+// 	double	column_width;
+// 	int		i;
+// 	int		j;
+// 	int		pos_x;
 
-	rect.height = get_door_height(game, door->distance);
-	rect.y = get_y_door_position(game, rect.height);
-	rect.x = get_x_door_position(game, door, rect.height);
-	rect.door = door;
-	column_width = rect.height / door->tex->height;
-	i = -1;
-	while (++i < door->tex->width)
-	{
-		j = -1;
-		while (++j < column_width)
-		{
-			pos_x = (int)(rect.x + (i - 1) * column_width + j);
-			if (pos_x >= 0 && pos_x <= game->scene.res.width - 1
-				&& door->distance < game->rays.arr[pos_x].size)
-			{
-				draw_door_strip(&rect, game, i, pos_x);
-			}
-		}
-	}
-}
+// 	rect.height = get_door_height(game, door->distance);
+// 	rect.y = get_y_door_position(game, rect.height);
+// 	rect.x = get_x_door_position(game, door, rect.height);
+// 	rect.door = door;
+// 	column_width = rect.height / door->tex->height;
+// 	i = -1;
+// 	while (++i < door->tex->width)
+// 	{
+// 		j = -1;
+// 		while (++j < column_width)
+// 		{
+// 			pos_x = (int)(rect.x + (i - 1) * column_width + j);
+// 			if (pos_x >= 0 && pos_x <= game->scene.res.width - 1
+// 				&& door->distance < game->rays.arr[pos_x].size)
+// 			{
+// 				draw_door_strip(&rect, game, i, pos_x);
+// 			}
+// 		}
+// 	}
+// }
 
-void	draw_door(t_game *game)
-{
-	int		i;
-	t_door	*door;
+// void	draw_door(t_game *game)
+// {
+// 	int		i;
+// 	t_door	*door;
 
-	i = -1;
-	while (++i < game->scene.total_doors)
-	{
-		door = &game->scene.doors[i];
-		if (door->is_visible)
-			draw_single_door(game, &game->scene.doors[i]);
-	}
-}
+// 	i = -1;
+// 	while (++i < game->scene.total_doors)
+// 	{
+// 		door = &game->scene.doors[i];
+// 		if (door->is_visible)
+// 			draw_single_door(game, &game->scene.doors[i]);
+// 	}
+// }
 
 void	draw(t_game *game)
 {
@@ -160,7 +160,7 @@ void	draw(t_game *game)
 	draw_floor(game);
 	draw_walls(game);
 	draw_sprites(game);
-	draw_door(game);
+	//draw_door(game);
 	draw_mini_map(game);
 }
 

@@ -37,22 +37,22 @@
 #  define K_LEFT_ARROW 123
 #  define K_RIGHT_ARROW 124
 # else
-// #  define K_ESC 53
-// #  define K_W 13
-// #  define K_A 0
-// #  define K_S 1
-// #  define K_D 2
-// #  define K_SP 49
-// #  define K_LEFT_ARROW 123
-// #  define K_RIGHT_ARROW 124
-#  define K_ESC 65307
-#  define K_W 119
-#  define K_A 97
-#  define K_S 115
-#  define K_D 100
-#  define K_SP 32
-#  define K_LEFT_ARROW 65361
-#  define K_RIGHT_ARROW 65363
+#  define K_ESC 53
+#  define K_W 13
+#  define K_A 0
+#  define K_S 1
+#  define K_D 2
+#  define K_SP 49
+#  define K_LEFT_ARROW 123
+#  define K_RIGHT_ARROW 124
+// #  define K_ESC 65307
+// #  define K_W 119
+// #  define K_A 97
+// #  define K_S 115
+// #  define K_D 100
+// #  define K_SP 32
+// #  define K_LEFT_ARROW 65361
+// #  define K_RIGHT_ARROW 65363
 # endif
 
 /*

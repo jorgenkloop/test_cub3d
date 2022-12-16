@@ -98,6 +98,8 @@ t_texture	get_wall_texture(t_scene *scene, char orientation)
 		return (scene->so_tex);
 	else if (orientation == 'E')
 		return (scene->ea_tex);
-	else
+	else if (orientation == 'D')
 		return (scene->we_tex);
+	else
+		return (scene->door_tex);
 }

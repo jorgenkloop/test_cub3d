@@ -20,66 +20,71 @@
 ** @param:	- [t_game *] root struct
 */
 
-void	update_door_visibility(t_game *game, t_door *door)
-{
-	double	delta_angle;
-	double	angle;
-	double	dx;
-	double	dy;
+// void	update_door_visibility(t_game *game, t_door *door)
+// {
+// 	double	delta_angle;
+// 	double	angle;
+// 	double	dx;
+// 	double	dy;
 	
-	printf("doorx %d and doory %d\t", door->x, door->y);
-	dx = door->x - game->player.x;
-	dy = door->y - game->player.y;
-	angle = atan2(-dy, dx) - game->player.rotation_angle;
-	//printf("rotation angle %f and orientation %f dydx %f\t", rad_to_deg(angle), door->orientation, atan2(dy, dx));
-	angle = normalize_radian(angle);
-	delta_angle = angle;
-	door->rotation_angle = atan2(-dy, dx);
-	// if (door->rotation_angle < 0)
-	// 	door->rotation_angle += 2 * M_PI;
-	// else if (door->rotation_angle > (2 * M_PI))
-	// 	door->rotation_angle -= 2 * M_PI;
-	door->rotation_angle = normalize_radian(door->rotation_angle);
-	//printf("rotation angle2 %f\n", rad_to_deg(angle));
-	// delta_angle = angle + game->player.rotation_angle;
-	// delta_angle = game->player.rotation_angle - delta_angle;
-	//printf("delta angle %f and angle %f\n", delta_angle, angle);
-	if (delta_angle < -M_PI)
-		delta_angle += 2.0 * M_PI;
-	if (delta_angle > M_PI)
-		delta_angle -= 2.0 * M_PI;
-	delta_angle = fabs(delta_angle);
-	//printf("delta_angle %f\t", delta_angle);
-	if (delta_angle < game->rays.view_angle / 2 + deg_to_rad(4))
-		door->is_visible = 1;
-	else
-		door->is_visible = 0;
-	//printf("is visible %d\t", door->is_visible);
-}
+// 	//printf("doorx %d and doory %d player x %f player y %f\t", door->x, door->y, game->player.x, game->player.y);
+// 	dx = door->x - game->player.x;
+// 	dy = door->y - game->player.y;
+// 	//printf("dy %f and dx %f\t", dy, dx);
+// 	angle = atan2(dy, dx) - game->player.rotation_angle;
+// 	//printf("rotation angle %f and orientation %f dydx %f\t", rad_to_deg(angle), door->orientation, atan2(dy, dx));
+// 	angle = normalize_radian(angle);
+// 	door->rotation_angle = angle;
+// 	printf("%f\t", rad_to_deg(door->rotation_angle));
+// 	delta_angle = angle + game->player.rotation_angle;
+// 	delta_angle = game->player.rotation_angle - delta_angle;
+// 	//door->rotation_angle = atan2(-dy, dx);
+// 	// if (door->rotation_angle < 0)
+// 	// 	door->rotation_angle += 2 * M_PI;
+// 	// else if (door->rotation_angle > (2 * M_PI))
+// 	// 	door->rotation_angle -= 2 * M_PI;
+// 	//door->rotation_angle = normalize_radian(door->rotation_angle);
+// 	//printf("after %f\t", rad_to_deg(door->rotation_angle));
+// 	//printf("rotation angle2 %f\n", rad_to_deg(angle));
+// 	// delta_angle = angle + game->player.rotation_angle;
+// 	// delta_angle = game->player.rotation_angle - delta_angle;
+// 	//printf("delta angle %f and angle %f\n", delta_angle, angle);
+// 	if (delta_angle < -M_PI)
+// 		delta_angle += 2.0 * M_PI;
+// 	if (delta_angle > M_PI)
+// 		delta_angle -= 2.0 * M_PI;
+// 	delta_angle = fabs(delta_angle);
+// 	//printf("delta_angle %f\t", delta_angle);
+// 	if (delta_angle < game->rays.view_angle / 2 + deg_to_rad(4))
+// 		door->is_visible = 1;
+// 	else
+// 		door->is_visible = 0;
+// 	//printf("is visible %d\t", door->is_visible);
+// }
 
-void	update_door_distance(t_game *game, t_door *door)
-{
-	double		dx;
-	double		dy;
+// void	update_door_distance(t_game *game, t_door *door)
+// {
+// 	double		dx;
+// 	double		dy;
 
-	dx = door->x - game->player.x;
-	dy = door->y - game->player.y;
-	door->distance = sqrt(pow(dx, 2) + pow(dy, 2));
-}
+// 	dx = door->x - game->player.x;
+// 	dy = door->y - game->player.y;
+// 	door->distance = sqrt(pow(dx, 2) + pow(dy, 2));
+// }
 
-void	update_door(t_game *game)
-{
-	int		i;
-	t_door	*door;
+// void	update_door(t_game *game)
+// {
+// 	int		i;
+// 	t_door	*door;
 
-	i = -1;
-	while (++i < game->scene.total_doors)
-	{
-		door = &game->scene.doors[i];
-		update_door_visibility(game, door);
-		update_door_distance(game, door);
-	}
-}
+// 	i = -1;
+// 	while (++i < game->scene.total_doors)
+// 	{
+// 		door = &game->scene.doors[i];
+// 		update_door_visibility(game, door);
+// 		update_door_distance(game, door);
+// 	}
+// }
 
 void	update(t_game *game)
 {
@@ -87,7 +92,7 @@ void	update(t_game *game)
 	update_player_orientation(&game->player);
 	update_rays(game);
 	update_sprites(game);
-	update_door(game);
+	//update_door(game);
 }
 
 /*
@@ -132,7 +137,12 @@ void	update_player_position(t_player *player, char **grid)
 		rotation = player->rotation_angle + deg_to_rad(90);
 	player->x += cos(rotation) * move_step;
 	player->y += sin(rotation) * move_step;
-	if (ft_strchr("12D", grid[(int)player->y][(int)player->x]))
+	if (player->door_status == 1 && ft_strchr("12D", grid[(int)player->y][(int)player->x]))
+	{
+		player->x -= cos(rotation) * move_step;
+		player->y -= sin(rotation) * move_step;
+	}
+	else if (player->door_status == 0 && ft_strchr("12", grid[(int)player->y][(int)player->x]))
 	{
 		player->x -= cos(rotation) * move_step;
 		player->y -= sin(rotation) * move_step;
@@ -176,6 +186,7 @@ void	update_rays(t_game *game)
 	double	ray_angle;
 	int		i;
 
+	game->scene.map.door_s = game->player.door_status;
 	//if player is looking at 270 deg, ray angle is 240 deg
 	ray_angle = game->player.rotation_angle - game->rays.view_angle / 2;
 	i = -1;

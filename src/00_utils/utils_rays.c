@@ -52,6 +52,11 @@ int		is_wall(t_map *map, double x, double y, t_ray *ray)
 		ray->orientation = get_wall_orientation(map, (int)x, (int)y, ray);
 		return (1);
 	}
+	else if (ray->obstacle == 'D' && map->door_s == 1)
+	{
+		ray->orientation = 'D';
+		return (1);
+	}
 	return (0);
 }
 

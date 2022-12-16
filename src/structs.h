@@ -60,6 +60,7 @@ typedef struct	s_map
 	char		**grid;
 	int			width;
 	int			height;
+	int			door_s;
 }				t_map;
 
 typedef struct	s_sprite
@@ -98,7 +99,6 @@ typedef struct	s_scene
 	t_map		map;
 	int			mini_map_tile_size;
 	int			total_sprites;
-	int			total_doors;
 	t_sprite	*sprites;
 	t_door		*doors;
 }				t_scene;
