@@ -88,6 +88,8 @@
 
 void	update(t_game *game)
 {
+	//if (game->scene.map.grid[(int)game->player.y][(int)game->player.x - 1] == 'D' && game->scene.map.grid[(int)game->player.y - 1][(int)game->player.x] == 'D')
+	//	printf("angle %f and %f and %f\n", rad_to_deg(game->player.rotation_angle), game->player.x, game->player.y);
 	update_player_position(&game->player, game->scene.map.grid);
 	update_player_orientation(&game->player);
 	update_rays(game);
@@ -117,11 +119,40 @@ void	update(t_game *game)
 **			position
 */
 
+static int	check_corners(t_player *player, char **grid, int b_x, int b_y)
+{
+	if (player->rotation_angle > 0 && player->rotation_angle < (0.5 * M_PI))
+	{
+		if ((b_x == (int)player->x - 1 && b_y == (int)player->y - 1) && (grid[(int)player->y][(int)player->x - 1] == 'D' && grid[(int)player->y - 1][(int)player->x] == 'D'))
+			return (1);
+	}
+	if (player->rotation_angle > (0.5 * M_PI) && player->rotation_angle < M_PI)
+	{
+		if ((b_x == (int)player->x + 1 && b_y == (int)player->y - 1) && (grid[(int)player->y][(int)player->x + 1] == 'D' && grid[(int)player->y - 1][(int)player->x] == 'D'))
+			return (1);
+	}
+	if (player->rotation_angle > M_PI && player->rotation_angle < (M_PI * 1.5))
+	{
+		if ((b_x == (int)player->x + 1 && b_y == (int)player->y + 1) && (grid[(int)player->y][(int)player->x + 1] == 'D' && grid[(int)player->y + 1][(int)player->x] == 'D'))
+			return (1);
+	}
+	if (player->rotation_angle > (1.5 * M_PI) && player->rotation_angle < (2 * M_PI))
+	{
+		if ((b_x == (int)player->x - 1 && b_y == (int)player->y + 1) && (grid[(int)player->y][(int)player->x - 1] == 'D' && grid[(int)player->y + 1][(int)player->x] == 'D'))
+			return (1);
+	}
+	return (0);
+}
+
 void	update_player_position(t_player *player, char **grid)
 {
 	double	move_step;
 	double	rotation;
+	int		b_x;
+	int		b_y;
 
+	b_x = (int)player->x;
+	b_y = (int)player->y;
 	if (player->walk_direction == 0)
 		return ;
 	move_step = player->move_speed;
@@ -137,7 +168,7 @@ void	update_player_position(t_player *player, char **grid)
 		rotation = player->rotation_angle + deg_to_rad(90);
 	player->x += cos(rotation) * move_step;
 	player->y += sin(rotation) * move_step;
-	if (player->door_status == 1 && ft_strchr("12D", grid[(int)player->y][(int)player->x]))
+	if (player->door_status == 1 && (ft_strchr("12D", grid[(int)player->y][(int)player->x]) || check_corners(player, grid, b_x, b_y)))
 	{
 		player->x -= cos(rotation) * move_step;
 		player->y -= sin(rotation) * move_step;
@@ -166,6 +197,7 @@ void	update_player_orientation(t_player *player)
 		return ;
 	rotation = player->turn_direction * player->rotation_speed;
 	player->rotation_angle += rotation;
+	//printf("angle %f\n", rad_to_deg(player->rotation_angle));
 }
 
 /*

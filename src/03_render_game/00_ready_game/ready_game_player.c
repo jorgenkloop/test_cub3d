@@ -68,7 +68,7 @@ double	get_starting_orientation(char orientation)
 
 	radian = 0;
 	if (orientation == 'N')
-		radian = deg_to_rad(160);
+		radian = deg_to_rad(270);
 	else if (orientation == 'S')
 		radian = deg_to_rad(90);
 	else if (orientation == 'E')
