@@ -107,6 +107,8 @@ typedef struct	s_player
 {
 	double		x;
 	double		y;
+	int			b_x;
+	int			b_y;
 	double		radius;
 	char		walk_direction;
 	double		move_speed;

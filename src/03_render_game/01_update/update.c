@@ -148,11 +148,9 @@ void	update_player_position(t_player *player, char **grid)
 {
 	double	move_step;
 	double	rotation;
-	int		b_x;
-	int		b_y;
 
-	b_x = (int)player->x;
-	b_y = (int)player->y;
+	player->b_x = (int)player->x;
+	player->b_y = (int)player->y;
 	if (player->walk_direction == 0)
 		return ;
 	move_step = player->move_speed;
@@ -168,7 +166,7 @@ void	update_player_position(t_player *player, char **grid)
 		rotation = player->rotation_angle + deg_to_rad(90);
 	player->x += cos(rotation) * move_step;
 	player->y += sin(rotation) * move_step;
-	if (player->door_status == 1 && (ft_strchr("12D", grid[(int)player->y][(int)player->x]) || check_corners(player, grid, b_x, b_y)))
+	if (player->door_status == 1 && (ft_strchr("12D", grid[(int)player->y][(int)player->x]) || check_corners(player, grid, player->b_x, player->b_y)))
 	{
 		player->x -= cos(rotation) * move_step;
 		player->y -= sin(rotation) * move_step;
