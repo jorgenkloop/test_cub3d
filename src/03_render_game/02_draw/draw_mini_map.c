@@ -14,12 +14,13 @@
 
 void	draw_mini_map(t_game *game)
 {
-	int	height_mini_map;
+	//int	height_mini_map;
 
-	height_mini_map = game->scene.mini_map_tile_size * game->scene.map.height
-					+ MINIMAP_OFFSET * 2;
-	if (height_mini_map > game->scene.res.height)
-		return ;
+	//height_mini_map = game->scene.mini_map_tile_size * game->scene.map.height + MINIMAP_OFFSET * 2;
+	//height_mini_map = 10;
+	//printf("height %d and widtch %d\n", height_mini_map, game->scene.mini_map_tile_size);
+	//if (height_mini_map > game->scene.res.height)
+	//	return ;
 	draw_map(game);
 	draw_player(game, game->scene.mini_map_tile_size);
 }
@@ -62,6 +63,53 @@ void	draw_map(t_game *game)
 		}
 	}
 }
+
+// void	draw_map(t_game *game)
+// {
+// 	t_rect	rect;
+// 	int		i;
+// 	int		x;
+// 	int		j;
+// 	int		y;
+// 	char	grid_item;
+// 	int		r;
+
+// 	i = (int)game->player.y - 5;
+// 	y = (int)game->player.y + 5;
+// 	if (i < 0)
+// 		i = 0;
+// 	if (y > game->scene.map.height)
+// 		y = game->scene.map.height;
+// 	while (i < y)
+// 	{
+// 		j = (int)game->player.x - 5;
+// 		x = (int)game->player.x + 5;
+// 		if (j < 0)
+// 			j = 0;
+// 		if (x > game->scene.map.width)
+// 			x = game->scene.map.width;
+// 		r = 10;
+// 		while (j < x)
+// 		{
+// 			grid_item = game->scene.map.grid[i][j];
+// 			if (grid_item == ' ')
+// 			{
+// 				j++;
+// 				continue ;
+// 			}
+// 			rect.x = j * game->scene.mini_map_tile_size + MINIMAP_OFFSET;
+// 			rect.y = i * game->scene.mini_map_tile_size + MINIMAP_OFFSET;
+// 			rect.width = game->scene.mini_map_tile_size;
+// 			rect.height = game->scene.mini_map_tile_size;
+// 			rect.border_color = 0x0014213d;
+// 			rect.border_width = 0;
+// 			rect.fill_color = get_fill_color(&game->scene.floor, grid_item);
+// 			draw_rect(&rect, game->mlx.img.data, game->scene.res.width);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 /*
 ** Draws the player on top of the map. Player composed of a dot and the rays
